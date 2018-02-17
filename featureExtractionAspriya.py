@@ -56,7 +56,6 @@ def short_term_feauture_extraction(signal, fs, window_len, step_len):
 	short_term_features = np.concatenate(short_term_features, 1)
 	# Concatenation refers to joining. This function is used to join two or more arrays of the same shape 
 	# along a specified axis. here the specified axis is 1.
-	print("feature ext number of frames :" + str(current_frame))
 	return short_term_features
 
 
@@ -77,7 +76,17 @@ def short_term_Energy(frame):
 
 
 def short_term_Energy_Entropy(frame, numOfShortBlocks=10):
-  """Computes entropy of energy"""
+  """Computes entropy of energy
+  By further subdividing each frame into a set of sub-frames, we can calculate their 
+  respective short-term energies and treat them as probabilities, thus permitting 
+  us to calculate their entropy:
+  """
+  '''
+  Entropy is the measure of randomness or disorderness of a system. So noise is considered
+  to have a hight entropy as it is so random and dissordered. Music on the other hand is
+  ordered and tends have very lower entropies. And entropy of music is lower that that of speech.
+  '''
+
   Eol = np.sum(frame ** 2)    # total frame energy
   L = len(frame)
   subWinLength = int(np.floor(L / numOfShortBlocks))

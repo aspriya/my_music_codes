@@ -5,6 +5,7 @@ import numpy as np
 import math
 from matplotlib import style
 from featureExtractionAspriya import short_term_feauture_extraction
+from recordAudioWhilePloting import record
 
 # style.use('ggplot')
 
@@ -12,8 +13,11 @@ from featureExtractionAspriya import short_term_feauture_extraction
 fig = plt.figure(figsize=(8,6))
 grid = plt.GridSpec(7,1, hspace=2)
 
-fs, data = wavfile.read('piano.wav')
-length_of_audio = len(data) / fs
+#if importing a wav file use following
+#fs, data = wavfile.read('piano.wav')
+fs = 44100
+data = record(rate=fs, chunk_size=1024, record_seconds=10)
+length_of_audio = len(data) / float(fs)
 window = 'hanning'
 
 #time signal graph
@@ -22,7 +26,7 @@ time_signal_plot.plot(data)
 
 #window_length_in_milliseconds = 92
 #window_length_in_samples = (fs *window_length_in_milliseconds) / 1000
-window_length_in_samples = 4096
+window_length_in_samples = 4096 #1024,2048,4096,8192
 nperseg = window_length_in_samples
 nfft = None #lenght of fft window. if zeor padding is neades, use a suitable power of 2 value here
 
@@ -55,7 +59,7 @@ f, t, Zxx = signal.stft(data, fs, nperseg=nperseg, nfft=nfft, window=window)
 #spectrogram graph
 spectrogram = fig.add_subplot(grid[3:, :])
 spectrogram.pcolormesh(t, f, np.abs(Zxx))
-spectrogram.axis([0, length_of_audio, 0, 5000])
+spectrogram.axis([0, length_of_audio, 0, 2100])
 # spectrogram.set_title('STFT Magnitude')
 spectrogram.set_ylabel('Frequency in Hz')
 spectrogram.set_xlabel('Time in sec')
@@ -63,7 +67,5 @@ spectrogram.set_xlabel('Time in sec')
 
 
 print("Shape of Zxx, which is a matrix. rows are frames, and columns are fft coificiants" + str(Zxx.shape))
-
-print(len((Zxx[1])))
 plt.show()
 

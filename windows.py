@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # window size means the number of samples in the window
 M = 63
 
-#change here to 'hamming or blackman or blackmanharris to get those windows'
+#change here to 'hamming or blackman or blackmanharris or hanning to get those windows'
 window = get_window('hanning', M)
 hM1 = int(math.floor((M+1)/2)) # 63+1 / 2 = 32
 hM2 = int(math.floor(M/2))  # 63 / 2 = 31

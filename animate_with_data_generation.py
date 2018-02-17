@@ -21,7 +21,5 @@ def animate(i):
 		del y[:]
 		del x[:]
 		
-
-
 ani = animation.FuncAnimation(fig, animate, frames=np.arange(0,20, 0.5), interval=50)
 plt.show()

@@ -3,9 +3,9 @@ import numpy as np
 
 def short_term_feauture_extraction(signal, fs, window_len, step_len):
 	'''
-	This function implements a shot-term windowing process. For each window, a set of features are extracted. 
-	The rusult is a sequence of feature vectros, stored in a numpy matrix.	
-	
+	This function implements a shot-term windowing process. For each window, a set of features are extracted.
+	The rusult is a sequence of feature vectros, stored in a numpy matrix.
+
 	ARGUMENTS
 		signal:				the input singnal in samples
 		fs:						sampling rate of the signal
@@ -17,15 +17,15 @@ def short_term_feauture_extraction(signal, fs, window_len, step_len):
 	'''
 
 	window_len = int(window_len)
-	step_len = int(step_len) 
+	step_len = int(step_len)
 
 	signal = np.double(signal) #normalize the signal
 
-	
+
 	'''
 	In a wav file, one sample is stored in two bytes. so each sample is 16 bit long.
-	In WAV, 16-bit is signed and little-endian. So if you take the value of that 16-bit 
-	sample and divide it by 2^15, you'll end up with a sample that is normalized to be 
+	In WAV, 16-bit is signed and little-endian. So if you take the value of that 16-bit
+	sample and divide it by 2^15, you'll end up with a sample that is normalized to be
 	within the range -1 to 1.
 	'''
 	signal = signal / (2 ** 15) #normalizing the sample to be in -1 to 1 range in value.
@@ -36,11 +36,11 @@ def short_term_feauture_extraction(signal, fs, window_len, step_len):
 	N = len(signal)
 	current_position = 0  #current position in samples
 	current_frame = 0
-	nFFT = window_len / 2 
+	nFFT = window_len / 2
 
 	num_of_features = 3
 	short_term_features = []
-	
+
 	while(current_position + window_len - 1 < N):  #loop each st_window until the end of signal
 		current_frame += 1
 		x = signal[current_position : current_position+window_len] #get the current window
@@ -54,7 +54,7 @@ def short_term_feauture_extraction(signal, fs, window_len, step_len):
 		short_term_features.append(current_feature_vector)
 
 	short_term_features = np.concatenate(short_term_features, 1)
-	# Concatenation refers to joining. This function is used to join two or more arrays of the same shape 
+	# Concatenation refers to joining. This function is used to join two or more arrays of the same shape
 	# along a specified axis. here the specified axis is 1.
 	return short_term_features
 
@@ -77,8 +77,8 @@ def short_term_Energy(frame):
 
 def short_term_Energy_Entropy(frame, numOfShortBlocks=10):
   """Computes entropy of energy
-  By further subdividing each frame into a set of sub-frames, we can calculate their 
-  respective short-term energies and treat them as probabilities, thus permitting 
+  By further subdividing each frame into a set of sub-frames, we can calculate their
+  respective short-term energies and treat them as probabilities, thus permitting
   us to calculate their entropy:
   """
   '''

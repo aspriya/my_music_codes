@@ -54,7 +54,7 @@ print("number of windows is "+ str(len(data)/window_length_in_samples))
 step_size_in_samples = window_length_in_samples//4
 print("step size in sampels is ", step_size_in_samples)
 
-short_term_feautures = short_term_feauture_extraction(data, fs, window_length_in_samples, step_size_in_samples)
+short_term_feautures, specgram, TimeAxis, FreqAxis = short_term_feauture_extraction(data, fs, window_length_in_samples, step_size_in_samples)
 print ("feature matrix shape is: " +str(short_term_feautures.shape))
 
 # energy plot
@@ -69,12 +69,12 @@ energy_graph.plot(short_term_feautures[1])
 energy_entropy_graph = fig.add_subplot(grid[2, :])
 energy_entropy_graph.plot(short_term_feautures[2])
 
-
-# calculate the spectrogram
-specgram, TimeAxis, FreqAxis = stSpectogram(data, fs, window_length_in_samples, step_size_in_samples, True)
-print("spectrogram is: ",  specgram)
-print("spectogram length ", len(specgram))
-print("spectrogram shape ", specgram.shape)
+#sepctogram directly
+plt.subplot(212)
+plt.specgram(data, Fs=fs)
+plt.xlabel('Time')
+plt.ylabel('Frequency')
+plt.show()
 
 
 #........................... PREPARING ONSET ARRAY (WETHER A ONSET DETECTED OR NOT AT THAT TIME INTERVAL) ...........................
